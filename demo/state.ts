@@ -1,9 +1,6 @@
-import {
-  PublicKeyCredentialJSON,
-  PublicKeyCredentialWithToJSON,
-} from "../../webauthn-json/browser-ponyfill";
+import { PublicKeyCredentialWithAttestationJSON } from "../../webauthn-json/basic/json";
 
-export function getRegistrations(): PublicKeyCredentialJSON[] {
+export function getRegistrations(): PublicKeyCredentialWithAttestationJSON[] {
   const registrations = JSON.parse(
     localStorage.webauthnExampleRegistrations || "[]",
   );
@@ -11,7 +8,7 @@ export function getRegistrations(): PublicKeyCredentialJSON[] {
 }
 
 export function setRegistrations(
-  registrations: PublicKeyCredentialJSON[],
+  registrations: PublicKeyCredentialWithAttestationJSON[],
   display: boolean = true,
 ): void {
   localStorage.webauthnExampleRegistrations = JSON.stringify(
@@ -23,10 +20,10 @@ export function setRegistrations(
 }
 
 export function saveRegistration(
-  registration: PublicKeyCredentialWithToJSON,
+  registration: PublicKeyCredentialWithAttestationJSON,
 ): void {
   const registrations = getRegistrations();
-  registrations.push(registration.toJSON());
+  registrations.push(registration);
   setRegistrations(registrations);
 }
 

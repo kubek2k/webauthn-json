@@ -2,19 +2,13 @@
 // Note: do not hardcode values in production.
 
 import { PublicKeyCredentialDescriptorJSON } from "../../webauthn-json/basic/json";
-import { supported } from "../../webauthn-json";
+import { create, get, supported } from "../../webauthn-json";
 import {
   getRegistrations,
   saveRegistration,
   setRegistrations,
   withStatus,
 } from "./state";
-import {
-  parseCreationOptionsFromJSON,
-  create,
-  get,
-  parseRequestOptionsFromJSON,
-} from "../../webauthn-json/browser-ponyfill";
 
 function registeredCredentials(): PublicKeyCredentialDescriptorJSON[] {
   return getRegistrations().map((reg) => ({
@@ -24,35 +18,35 @@ function registeredCredentials(): PublicKeyCredentialDescriptorJSON[] {
 }
 
 async function register(): Promise<void> {
-  const cco = parseCreationOptionsFromJSON({
-    publicKey: {
-      challenge: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
-      rp: { name: "Localhost, Inc." },
-      user: {
-        id: "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
-        name: "test_user",
-        displayName: "Test User",
+  saveRegistration(
+    await create({
+      publicKey: {
+        challenge: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+        rp: { name: "Localhost, Inc." },
+        user: {
+          id: "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
+          name: "test_user",
+          displayName: "Test User",
+        },
+        pubKeyCredParams: [{ type: "public-key", alg: -7 }],
+        excludeCredentials: registeredCredentials(),
+        authenticatorSelection: { userVerification: "discouraged" },
+        extensions: {
+          credProps: true,
+        },
       },
-      pubKeyCredParams: [],
-      excludeCredentials: registeredCredentials(),
-      authenticatorSelection: { userVerification: "discouraged" },
-      extensions: {
-        credProps: true,
-      },
-    },
-  });
-  saveRegistration(await create(cco));
+    }),
+  );
 }
 
 async function authenticate(): Promise<void> {
-  const cro = parseRequestOptionsFromJSON({
+  await get({
     publicKey: {
       challenge: "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
       allowCredentials: registeredCredentials(),
       userVerification: "discouraged",
     },
   });
-  await get(cro);
 }
 
 async function clear(): Promise<void> {
