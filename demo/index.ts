@@ -1,8 +1,7 @@
 // A minimal example to test `webauthn-json`.
 // Note: do not hardcode values in production.
 
-import { PublicKeyCredentialDescriptorJSON } from "../../webauthn-json/basic/json";
-import { supported } from "../../webauthn-json";
+import { type PublicKeyCredentialDescriptorJSON } from "../../webauthn-json";
 import {
   getRegistrations,
   saveRegistration,
@@ -14,6 +13,7 @@ import {
   create,
   get,
   parseRequestOptionsFromJSON,
+  supported,
 } from "../../webauthn-json/browser-ponyfill";
 
 function registeredCredentials(): PublicKeyCredentialDescriptorJSON[] {
