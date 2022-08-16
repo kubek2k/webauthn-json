@@ -49,7 +49,7 @@
     "build-types": "npx tsc -p tsconfig-types.json",
     "build-pages": "node script/build-pages.js",
     "dev": "node script/dev.js",
-    "clean": "rm -rf ./.temp ./dist ./dist-babel",
+    "clean": "rm -rf ./.temp ./dist ./dist_babel",
     "test": "npx jest && npm run lint",
     "lint": "npx prettier --check src",
     "format": "npx prettier --write src",
