@@ -45,7 +45,7 @@
   "scripts": {
     "build": "npm run build-js && npm run build-types && npm run build-babel",
     "build-js": "node script/build-js.js",
-    "build-babel": "babel src -d dist_babel/",
+    "build-babel": "babel dist -d dist_babel/",
     "build-types": "npx tsc -p tsconfig-types.json",
     "build-pages": "node script/build-pages.js",
     "dev": "node script/dev.js",
