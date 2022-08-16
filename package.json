@@ -83,6 +83,7 @@
     "/package.json",
     "/package-lock.json",
     "/dist/**/*",
+    "/dist_babel/**/*",
     "/browser-ponyfill/**/*",
     "/extended/**/*",
     "/src/webauthn-json/**/*"
